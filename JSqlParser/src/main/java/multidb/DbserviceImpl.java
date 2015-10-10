@@ -1,9 +1,8 @@
 package multidb;
 
 
-import multidb.ExpressionNode.AbstractNode;
-import multidb.ExpressionNode.ElasticSearchScanNode;
-import multidb.ExpressionNode.PhoenixScanNode;
+import com.alibaba.fastjson.JSON;
+import multidb.ExpressionNode.*;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserManager;
 import net.sf.jsqlparser.schema.Table;
@@ -14,7 +13,7 @@ import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.util.deparser.StatementDeParser;
 
 import java.io.StringReader;
-import java.util.Objects;
+import java.util.*;
 
 public class DbserviceImpl {
 
@@ -78,7 +77,7 @@ public class DbserviceImpl {
 
         }*/
 
-        if (root != null) {
+        /*if (root != null) {
             root.exec();
 
             while (!root.isComplete() && root.getStatus() == AbstractNode.EXESTATUS.EXE_PENDING) {
@@ -86,7 +85,7 @@ public class DbserviceImpl {
                 System.out.println("正在执行...");
             }
             System.out.println(((ElasticSearchScanNode) root).getFullTupleToString());
-        }
+        }*/
 
         return root;
     }
@@ -127,18 +126,78 @@ public class DbserviceImpl {
         return null;
     }
 
+    public AbstractNode select_ret_file(String sql, QueryCallback cb) {
+        // TODO Auto-generated method stub
+
+        final AbstractNode scanNode = startSql(sql);
+
+        final LocalFileResultNode fileNode = new LocalFileResultNode(scanNode, cb);
+
+        fileNode.exec();
+        return fileNode;
+    }
+
+    public String select_ret_json(String sql) {
+
+        System.out.println("sql......" + sql);
+        // TODO Auto-generated method stub
+        // 解析出表空间
+        // 重写SQL发送到对应的表空间
+        final AbstractNode root = startSql(sql);
+        root.exec();
+        while (!root.isComplete() && root.getStatus() == AbstractNode.EXESTATUS.EXE_SUCCESS) {
+
+            System.out.println("正在执行...");
+            /*try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }*/
+        }
+        Map<String, Object> map = new LinkedHashMap<>();
+
+        /**
+         * 执行失败
+         */
+        if (root.getStatus() == AbstractNode.EXESTATUS.EXE_ERROR) {
+            map.put("error", "sql to elasticsearch 发生错误，请联系管理员");
+            return JSON.toJSONString(map);
+        }
+        final List<Map<String, Object>> data = new ArrayList<>();
+        while (true) {
+            Map<String, Object> obj = root.getNextTuple();
+            if (obj == null)
+                break;
+            data.add(obj);
+
+        }
+        map.put("data", data);
+        map.put("took", root.getTook());
+        map.put("total", root.getTotal());
+        return JSON.toJSONString(map);
+
+    }
+
     public static void main(String[] args) throws Exception {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final String sql = "select * " +
-                        "from es.kol_user_data$info where rowkey = 'a92a2c2cc4d2o3e14'";
+                final String sql = "select myweb,nickname from es.cms_data_internetdb$info where publishnum=0";
 
                 final DbserviceImpl dbservice = new DbserviceImpl();
-                dbservice.startSql(sql);
+                dbservice.select_ret_file(sql, new QueryCallback() {
+
+                    @Override
+                    public void callback(AbstractNode node, AbstractNode.EXESTATUS status) {
+                        System.out.println(node.getNextTuple() + "  " + status);
+                    }
+
+                });
+                System.out.println();
             }
-        }, "test1").start();
+        }, "test2").start();
 
 
         /*Map<String,String> map = new HashMap<>();
@@ -148,12 +207,11 @@ public class DbserviceImpl {
         /*new Thread(new Runnable() {
             @Override
             public void run() {
-                final String sql = "select * from es.cms_data_internetdb$info where nickname = 'wuxibodi123'";
-
+                final String sql = "select * from es.cms_data_internetdb$info where nickname = 'dms1'";
                 final DbserviceImpl dbservice = new DbserviceImpl();
-                dbservice.startSql(sql);
+                System.out.println(dbservice.select_ret_json(sql));
             }
-        }, "test2").start();*/
+        }, "test3").start();*/
 
     }
 

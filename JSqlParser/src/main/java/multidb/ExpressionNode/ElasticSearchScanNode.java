@@ -18,7 +18,7 @@ import org.elasticsearch.search.highlight.HighlightField;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 
 public class ElasticSearchScanNode extends ScanNode {
@@ -26,21 +26,25 @@ public class ElasticSearchScanNode extends ScanNode {
     /**
      * sql
      */
-    String sql;
+    private String sql;
+
+    /**
+     * es客户端
+     */
+    private TransportClient transportClient;
     /**
      * 查询完成标识
      */
-    boolean isComplete;
+    private boolean isComplete;
     /**
      * 查询状态
      */
-    EXESTATUS exestatus = EXESTATUS.EXE_PENDING;
+    private AbstractNode.EXESTATUS exestatus = AbstractNode.EXESTATUS.EXE_PENDING;
     /**
      * 查询返回存储
      */
-    ArrayList<String> list;
+    private ArrayList<String> list;
 
-    Queue<String> queue;
     /**
      * 结果map
      */
@@ -59,12 +63,14 @@ public class ElasticSearchScanNode extends ScanNode {
     /**
      * 构造函数
      *
-     * @param sql    sql
-     * @param parent parent
+     * @param sql             sql
+     * @param parent          parent
+     * @param transportClient transportClient
      */
-    public ElasticSearchScanNode(String sql, AbstractNode parent) {
+    public ElasticSearchScanNode(String sql, AbstractNode parent/*,TransportClient transportClient*/) {
         super(parent);
         this.sql = sql;
+        this.transportClient = null;
 
     }
 
@@ -79,11 +85,12 @@ public class ElasticSearchScanNode extends ScanNode {
                 final ActionRequestBuilder actionRequestBuilder = esUtil.convertSql(sql, client);
                 final SearchResponse response = (SearchResponse) actionRequestBuilder
                         .execute().actionGet();
-                /*list.add("{\"total\":\"" + response.getHits().totalHits() + "\"}");
-                list.add("{\"qTime\":\"" + response.getTookInMillis() + "\"}");*/
 
-                map.put("took", response.getTookInMillis());
-                map.put("total", response.getHits().getTotalHits());
+                /*map.put("took", response.getTookInMillis());
+                map.put("total", response.getHits().getTotalHits());*/
+
+                took = response.getTookInMillis();
+                total = response.getHits().getTotalHits();
                 return response.getHits();
             }
         });
@@ -91,29 +98,37 @@ public class ElasticSearchScanNode extends ScanNode {
         Futures.addCallback(listenableFuture, new FutureCallback<SearchHits>() {
             @Override
             public void onSuccess(SearchHits hits) {
-                list = new ArrayList<>();
-                final List<Map<String, Object>> data = new ArrayList<>();
+
                 for (SearchHit hit : hits) {
+
                     final Map<String, Object> hitMap = hit.getSource();
+                    /** 高亮 */
                     final Map<String, HighlightField> highlightFields = hit.getHighlightFields();
                     if (highlightFields != null) {
                         for (String key : highlightFields.keySet()) {
                             System.out.println(key);
                             final Text[] texts = highlightFields.get(key).getFragments();
-                            hitMap.put(key, texts[0].toString().replace("\"",""));
+                            hitMap.put(key, texts[0].toString().replace("\"", ""));
                         }
                     }
 
+
                     hitMap.put("_id", hit.getId());
                     hitMap.put("_score", hit.getScore());
-                    data.add(hitMap);
-
-                    list.add(hit.getSourceAsString());
-
-
+                    JSONObject obj = JSON.parseObject(JSON.toJSONString(hitMap));
+                    try {
+                        basket.offer(obj, 60, TimeUnit.SECONDS);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
-                map.put("data", data);
-                queue = new LinkedBlockingDeque<>(list);
+                try {
+                    basket.put(new JSONObject());
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 System.out.println(Thread.currentThread().getId() + "完成");
                 isComplete = true;
                 exestatus = EXESTATUS.EXE_SUCCESS;
@@ -123,19 +138,15 @@ public class ElasticSearchScanNode extends ScanNode {
             @Override
             public void onFailure(Throwable throwable) {
                 System.out.println(Thread.currentThread().getId() + "失败");
-                list.add("{\"error\":\"" + throwable.getLocalizedMessage() + "\"}");
-                map.put("error", "sql to elasticsearch 发生错误，请联系管理员" + throwable.getLocalizedMessage());
+                //list.add("{\"total\":\"" + throwable.getLocalizedMessage() + "\"}");
+                //map.put("error", "sql to elasticsearch 发生错误，请联系管理员" + throwable.getLocalizedMessage());
                 exestatus = EXESTATUS.EXE_ERROR;
+                isComplete = true;
                 executorService.shutdown();
             }
         });
     }
 
-    @Override
-    public JSONObject getNextTuple() {
-        // TODO Auto-generated method stub
-        return JSON.parseObject(queue.poll());
-    }
 
     @Override
     public boolean isComplete() {
