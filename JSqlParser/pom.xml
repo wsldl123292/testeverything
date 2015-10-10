@@ -85,6 +85,11 @@
             <artifactId>zkclient</artifactId>
             <version>0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.saibo</groupId>
+            <artifactId>spark-job-server-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

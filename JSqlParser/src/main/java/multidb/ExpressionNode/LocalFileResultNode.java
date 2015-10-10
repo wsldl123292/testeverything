@@ -2,8 +2,6 @@ package multidb.ExpressionNode;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.saibowisdom.base.api.multidb.AbstractNode;
-import com.saibowisdom.base.api.multidb.QueryCallback;
 
 import java.io.File;
 import java.io.FileNotFoundException;

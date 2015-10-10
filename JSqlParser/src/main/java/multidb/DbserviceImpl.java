@@ -126,7 +126,7 @@ public class DbserviceImpl {
         return null;
     }
 
-    public AbstractNode select_ret_file(String sql, QueryCallback cb) {
+    public void select_ret_file(String sql, QueryCallback cb) {
         // TODO Auto-generated method stub
 
         final AbstractNode scanNode = startSql(sql);
@@ -134,7 +134,7 @@ public class DbserviceImpl {
         final LocalFileResultNode fileNode = new LocalFileResultNode(scanNode, cb);
 
         fileNode.exec();
-        return fileNode;
+        //return fileNode;
     }
 
     public String select_ret_json(String sql) {
@@ -190,8 +190,8 @@ public class DbserviceImpl {
                 dbservice.select_ret_file(sql, new QueryCallback() {
 
                     @Override
-                    public void callback(AbstractNode node, AbstractNode.EXESTATUS status) {
-                        System.out.println(node.getNextTuple() + "  " + status);
+                    public void callback(String node, AbstractNode.EXESTATUS status) {
+                        System.out.println(node + "  " + status);
                     }
 
                 });
