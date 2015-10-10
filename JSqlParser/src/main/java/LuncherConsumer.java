@@ -1,4 +1,6 @@
+import com.saibowisdom.base.api.multidb.AbstractNode;
 import com.saibowisdom.base.api.multidb.Dbservice;
+import com.saibowisdom.base.api.multidb.QueryCallback;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,7 +25,7 @@ public class LuncherConsumer implements Serializable{
         final Dbservice dbservice = (Dbservice) context.getBean("dbService");
         final String sql = "select myweb,nickname from es.cms_data_internetdb$info where publishnum=0";
 
-        /*dbservice.selectRetFile(sql, new QueryCallback() {
+        dbservice.selectRetFile(sql, new QueryCallback() {
 
             @Override
             public void callback(String abstractNode, AbstractNode.EXESTATUS exestatus) {
@@ -32,6 +34,6 @@ public class LuncherConsumer implements Serializable{
         });
 
         System.out.println("hello");
-        System.out.println(dbservice.selectRetJson(sql));*/
+        System.out.println(dbservice.selectRetJson(sql));
     }
 }

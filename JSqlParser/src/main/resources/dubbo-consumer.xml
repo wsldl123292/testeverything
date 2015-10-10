@@ -14,5 +14,4 @@
     <!--<dubbo:registryaddress="multicast://10.57.41.19:1234" /> -->
     <!-- 生成远程服务代理，可以和本地bean一样使用demoService-->
     <dubbo:reference id="dbService" interface="com.saibowisdom.base.api.multidb.Dbservice"/>
-    <dubbo:reference id="callbackService" interface="com.saibowisdom.base.api.multidb.CallbackService" />
 </beans>
