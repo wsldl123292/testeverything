@@ -102,7 +102,7 @@ public class DbserviceImpl {
 
         final PlainSelect plainSelect = (PlainSelect) ((Select) statement).getSelectBody();
         final FromItem item = plainSelect.getFromItem();
-        PhoenixScanNode phoenixScanNode;
+        //PhoenixScanNode phoenixScanNode;
         ElasticSearchScanNode esScanNode;
         if (item instanceof Table) {
             final Table tt = (Table) item;
@@ -114,9 +114,9 @@ public class DbserviceImpl {
         statement.accept(deParser);
 
         if (Objects.equals(schema, "hbase")) {
-            phoenixScanNode = new PhoenixScanNode(deParser.getBuffer().toString(),
+            /*phoenixScanNode = new PhoenixScanNode(deParser.getBuffer().toString(),
                     parent);
-            return phoenixScanNode;
+            return phoenixScanNode;*/
         } else if (Objects.equals(schema, "es")) {
             esScanNode = new ElasticSearchScanNode(deParser.getBuffer()
                     .toString(), parent);
@@ -126,7 +126,7 @@ public class DbserviceImpl {
         return null;
     }
 
-    public void select_ret_file(String sql, QueryCallback cb) {
+    public AbstractNode select_ret_file(String sql, QueryCallback cb) {
         // TODO Auto-generated method stub
 
         final AbstractNode scanNode = startSql(sql);
@@ -134,7 +134,7 @@ public class DbserviceImpl {
         final LocalFileResultNode fileNode = new LocalFileResultNode(scanNode, cb);
 
         fileNode.exec();
-        //return fileNode;
+        return fileNode;
     }
 
     public String select_ret_json(String sql) {
