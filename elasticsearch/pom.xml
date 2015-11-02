@@ -11,6 +11,13 @@
 
     <artifactId>elasticsearch</artifactId>
 
+    <repositories>
+        <repository>
+            <id>maven-hadoop</id>
+            <name>Hadoop Releases</name>
+            <url>http://dl.bintray.com/crate/crate</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.elasticsearch</groupId>
@@ -18,9 +25,19 @@
             <version>1.7.1</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.6</version>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.1.45</version>
         </dependency>
+        <!--<dependency>
+            <groupId>io.crate</groupId>
+            <artifactId>crate-client</artifactId>
+            <version>0.52.0</version>
+        </dependency>-->
     </dependencies>
 </project>

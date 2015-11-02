@@ -1,4 +1,4 @@
-import com.typesafe.config.Config
+import com.typesafe.config.{ConfigFactory, Config}
 import org.apache.spark._
 import spark.jobserver._
 
@@ -12,23 +12,22 @@ import scala.util.Try
  *
  * validate() returns SparkJobInvalid if there is no input.string
  */
-object WordCountExample extends SparkJob with NamedRddSupport{
-  /*def main(args: Array[String]) {
-    val sc = new SparkContext("yarn-client", "WordCountExample")
+object WordCountExample extends SparkJob {
+  def main(args: Array[String]) {
+    val sc = new SparkContext("local[4]", "WordCountExample")
     val config = ConfigFactory.parseString("")
     val results = runJob(sc, config)
     println("Result is " + results)
-  }*/
+  }
 
   override def validate(sc: SparkContext, config: Config): SparkJobValidation = {
     Try(config.getString("input.string"))
-      .map(x => SparkJobValid)
-      .getOrElse(SparkJobInvalid("No input.string config param"))
+            .map(x => SparkJobValid)
+            .getOrElse(SparkJobInvalid("No input.string config param"))
   }
 
   override def runJob(sc: SparkContext, config: Config): Any = {
     val dd = sc.parallelize(config.getString("input.string").split(" ").toSeq)
     dd.map((_, 1)).reduceByKey(_ + _).collect().toMap
-    this.namedRdds.update("result", dd);
   }
 }

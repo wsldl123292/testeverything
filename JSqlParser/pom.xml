@@ -11,7 +11,20 @@
 
     <artifactId>JSqlParser</artifactId>
 
+    <repositories>
+        <repository>
+            <id>local</id>
+            <name>local</name>
+            <url>http://192.168.1.220:8082/nexus/content/repositories/thirdparty/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>com.saibowisdom</groupId>
+            <artifactId>base-api</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>com.github.jsqlparser</groupId>
             <artifactId>jsqlparser</artifactId>
