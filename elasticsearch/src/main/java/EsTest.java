@@ -13,9 +13,13 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.index.query.FilterBuilders;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -251,18 +255,20 @@ public class EsTest {
         }*/
 
         //select nickname,userid from cms_data_internetdb group by nickname order by nickname
-        /*SearchRequestBuilder searchRequestBuilder = client.prepareSearch("kol_original_data").setTypes("info")
+        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("cms_data_saibo").setTypes("info")
                 .setSearchType(SearchType.DEFAULT)
-                .setPostFilter(FilterBuilders.existsFilter("praisenumee"));
+                .setFetchSource("title",null)
+                .setFrom(0)
+                .setSize(10);
+
+        System.out.println(searchRequestBuilder);
         SearchResponse response = searchRequestBuilder
                 .execute().actionGet();
-        System.out.println(response);*/
+        System.out.println(response);
 
         final String sql = "select title " +
-                "from es.cms_data_saibo$info " +
-                "where mediatype = 2 and title like '星月人' " +
-                "order by createdate desc limit 0,10";
-        System.out.println(searchEsByESql(sql));
+                "from es.cms_data_saibo$info limit 0,10";
+        //System.out.println(searchEsByESql(sql));
         /*for (Terms.Bucket b : agg.getBuckets()) {
             System.out.println("filedname:" + b.getKey() + "     docCount:" + b.getDocCount());
             Terms classTerms = b.getAggregations().get("terms");

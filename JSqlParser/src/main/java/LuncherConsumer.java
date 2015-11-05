@@ -26,10 +26,8 @@ public class LuncherConsumer implements Serializable{
                 "where  mediatype = 2 and (title ~ '(\"股份\" OR \"董事会\") AND (\"会议\")' or content ~ '(\"股份\" OR \"董事会\") AND (\"会议\")') and missing='psimhashrowkey'" +
                 " order by createdate desc limit 0,10";*/
 
-        final String sql = "select title " +
-                "from es.cms_data_saibo$info " +
-                "where mediatype = 2 and title like '星月人' " +
-                "order by createdate desc limit 0,10";
+        final String sql = "select test(title) " +
+                "from es.cms_data_saibo$info limit 0,10";
 
         /*dbservice.selectRetFile(sql, new QueryCallback() {
 
@@ -39,9 +37,9 @@ public class LuncherConsumer implements Serializable{
             }
         });*/
         //System.out.println("hello");
-        System.out.println(dbservice.selectRetJson(sql,"elasticsearch","192.168.1.211",9300));
+        System.out.println(dbservice.selectRetJson(sql));
 
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -61,7 +59,7 @@ public class LuncherConsumer implements Serializable{
                         "order by createdate desc limit 0,10";
                 System.out.println(dbservice.selectRetJson(sql,"elasticsearch","192.168.1.211",9300));
             }
-        }, "test2").start();
+        }, "test2").start();*/
 
     }
 }

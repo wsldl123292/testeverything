@@ -13,7 +13,8 @@ import scala.collection.JavaConversions._
  */
 object HBaseNewAPI {
     def main(args: Array[String]) {
-        val sc = new SparkContext("local", "SparkHBase")
+        System.setProperty("hadoop.home.dir", "F:\\data\\hadoop-common-2.2.0-bin-master")
+        val sc = new SparkContext("local", "sqltest")
         val conf = HBaseConfiguration.create()
         /*conf.set("hbase.zookeeper.property.clientPort", "2181")
         conf.set("hbase.zookeeper.quorum", "master")*/
