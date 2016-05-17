@@ -2,13 +2,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>testeverything</artifactId>
+        <groupId>com.ldl</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ldl</groupId>
-    <artifactId>testeverything</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>jmx</artifactId>
 
+    <dependencies>
+        <!--<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>-->
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -24,8 +44,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -38,14 +58,4 @@
             </plugin>
         </plugins>
     </build>
-    <modules>
-        <module>elasticsearch</module>
-        <module>javacallgroovy</module>
-        <module>javacallpython</module>
-        <module>JSqlParser</module>
-        <module>mlspark</module>
-        <module>sparkhbase</module>
-        <module>sparkjobserverclient</module>
-        <module>jmx</module>
-    </modules>
 </project>

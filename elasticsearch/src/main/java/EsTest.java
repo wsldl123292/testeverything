@@ -1,29 +1,34 @@
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
+import org.apache.lucene.search.BooleanQuery;
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequestBuilder;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
+import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import sun.reflect.annotation.ExceptionProxy;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
+import java.net.InetSocketAddress;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -34,12 +39,130 @@ import java.util.concurrent.ExecutionException;
  */
 public class EsTest {
 
+
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
-        final Client client = new TransportClient()
-                //.addTransportAddress(new InetSocketTransportAddress("111.204.239.215", 9300));
-                .addTransportAddress(new InetSocketTransportAddress("192.168.1.211", 9300));
+        final Settings settings = ImmutableSettings.settingsBuilder()
+                .put("client.transport.sniff", true).put("cluster.name", "es").build();
 
+        TransportClient client = new TransportClient(settings).addTransportAddresses(new InetSocketTransportAddress("192.168.1.212", 9300));
+
+        SearchRequestBuilder srb1 = client
+                .prepareSearch("cms_data_huishan")
+                .setTypes("info")
+                .setSize(5200);
+                /*.setQuery(QueryBuilders.boolQuery().must(QueryBuilders.rangeQuery("createdate").gte("1443776524000"))
+                        .must(QueryBuilders.rangeQuery("createdate").lte("1444640524000")));*/
+        /*System.out.println(srb1);
+        System.out.println(srb1.execute().actionGet());*/
+        SearchResponse searchResponse = srb1.execute().actionGet();
+        searchResponse.getHits().getHits();
+        System.out.println();
+
+
+        /*final Map map;
+        try {
+            map = client.admin().cluster()
+                    .health(new ClusterHealthRequest("cms_data_*")).actionGet()
+                    .getIndices();
+            *//*IndicesExistsResponse indicesExistsResponse = client.admin().indices().exists(new IndicesExistsRequest("cms_data_saibo*")).actionGet();
+            indicesExistsResponse.isExists();*//*
+            System.out.println(map);
+        } catch (ElasticsearchException e1) {
+            e1.printStackTrace();
+        }*/
+
+        /*XContentBuilder contentBuilder = null;
+        try {
+            contentBuilder = XContentFactory.jsonBuilder()
+                    .startObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            contentBuilder.field("name", "hello");
+            contentBuilder.field("indextime", String.valueOf(new Date().getTime()));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+
+        String json = null;
+        try {
+            json = contentBuilder.endObject().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            client.prepareIndex(indexName, indexName).setSource(json).execute()
+                    .actionGet();
+        } catch (ElasticsearchException e) {
+            //init(host);
+            e.printStackTrace();
+        }
+        /** indexName是否存在*/
+        /*Map map = null;
+        try {
+            map = client.admin().cluster()
+                    .health(new ClusterHealthRequest(indexName)).actionGet()
+                    .getIndices();
+        } catch (ElasticsearchException e1) {
+            e1.printStackTrace();
+        }
+        //assert map != null;
+        boolean exists = false;
+        if (map != null) {
+            exists = map.containsKey(indexName);
+        }
+        if (!exists) {
+            client.admin().indices()
+                    .create(new CreateIndexRequest(indexName)).actionGet();
+            client.admin()
+                    .cluster()
+                    .health(new ClusterHealthRequest(indexName)
+                            .waitForYellowStatus()).actionGet();
+
+        }
+
+        XContentBuilder builder = null;
+        try {
+            new XContentFactory();
+            builder = XContentFactory.jsonBuilder()
+                    .startObject()
+                    .startObject(indexName)
+                    .startObject("_source")
+                    .field("enabled", false)
+                    .endObject()
+                    .startObject("properties");
+
+            builder.startObject("name")
+                    .field("type", "string")
+                    .field("store", "no")
+                    .field("index", "not_analyzed")
+                    .field("indexAnalyzer", "ik");
+            builder.endObject();
+
+            *//*builder.startObject("indextime")
+                    .field("type", "date")
+                    .field("store", "no");
+            builder.endObject();*//*
+
+            builder.endObject()
+                    .endObject()
+                    .endObject();
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        final PutMappingRequest mapping = Requests.putMappingRequest(indexName).type(indexName).source(builder);
+        try {
+            client.admin().indices().putMapping(mapping).actionGet();
+        } catch (ElasticsearchException e) {
+            e.printStackTrace();
+        }*/
         /*IndexResponse response = client.prepareIndex("cms_data_internetdb", "info","AU9O4WjTCdZR5WHm8raz")
                 .setSource(jsonBuilder()
                                 .startObject()
@@ -254,84 +377,6 @@ public class EsTest {
             entry.getCount();   // Doc count
         }*/
 
-        //select nickname,userid from cms_data_internetdb group by nickname order by nickname
-        SearchRequestBuilder searchRequestBuilder = client.prepareSearch("cms_data_saibo").setTypes("info")
-                .setSearchType(SearchType.DEFAULT)
-                .setFetchSource("title",null)
-                .setFrom(0)
-                .setSize(10);
 
-        System.out.println(searchRequestBuilder);
-        SearchResponse response = searchRequestBuilder
-                .execute().actionGet();
-        System.out.println(response);
-
-        final String sql = "select title " +
-                "from es.cms_data_saibo$info limit 0,10";
-        //System.out.println(searchEsByESql(sql));
-        /*for (Terms.Bucket b : agg.getBuckets()) {
-            System.out.println("filedname:" + b.getKey() + "     docCount:" + b.getDocCount());
-            Terms classTerms = b.getAggregations().get("terms");
-            for (Terms.Bucket b2 : classTerms.getBuckets()) {
-                System.out.println(b2.getKey() + ",,,,," + b2.getDocCount());
-            }
-        }*/
-    }
-
-    public static Map<String, Object> searchEsByESql(String sql) throws UnsupportedEncodingException {
-        Map<String, Object> map = new HashMap<>();
-        HttpClient httpClient = new DefaultHttpClient();
-        String url = "http://localhost:8083/services/search/selectjson";
-        HttpPost pmethod = new HttpPost(url); // 设置响应头信息
-        pmethod.addHeader("Connection", "keep-alive");
-        pmethod.addHeader("Accept", "*/*");
-        pmethod.addHeader("Content-Type", "application/json; charset=UTF-8");
-        pmethod.addHeader("X-Requested-With", "XMLHttpRequest");
-        pmethod.addHeader("Cache-Control", "max-age=0");
-        pmethod.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
-
-        HttpParams httpParameters = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpParameters, 1000 * 120);//设置超时时间
-        HttpConnectionParams.setSoTimeout(httpParameters, 1000 * 120);
-        pmethod.setParams(httpParameters);
-
-        StringEntity se = new StringEntity(sql, HTTP.UTF_8);
-        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-
-
-        pmethod.setEntity(se);
-        HttpResponse res;
-        String jsonStr = "";
-        try {
-            res = httpClient.execute(pmethod);
-            if (res != null) {
-                HttpEntity entity = res.getEntity();
-                jsonStr = EntityUtils.toString(entity, "utf-8");
-            }
-        } catch (ClientProtocolException e) {
-            map.put("success", false);
-            map.put("info", e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            map.put("success", false);
-            map.put("info", e.getMessage());
-            e.printStackTrace();
-        } finally {
-            pmethod.releaseConnection();
-        }
-        if (null != jsonStr && !"".equals(jsonStr)) {
-            JSONObject object = JSON.parseObject(jsonStr);
-            if (null != object.get("error")) {
-                map.put("success", false);
-                map.put("info", object.get("error").toString());
-            } else {
-                map.put("success", true);
-                map.put("list", object.get("data"));
-                map.put("total", object.get("total"));
-                map.put("qTime", object.get("took"));
-            }
-
-        }
-        return map;
     }
 }

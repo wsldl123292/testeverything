@@ -25,7 +25,7 @@ public class JavaCount implements Serializable{
             public Tuple2<String, Integer> call(String s) {
                 return new Tuple2<>(s, 1);
             }
-        }).reduceByKey((i1, i2) -> i1 + i2);
+        }).reduceByKey((i1 i2) -> i1 + i2);
         return lines;
     }
 }
