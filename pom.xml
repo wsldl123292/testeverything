@@ -39,13 +39,12 @@
         </plugins>
     </build>
     <modules>
-        <module>elasticsearch</module>
         <module>javacallgroovy</module>
         <module>javacallpython</module>
         <module>JSqlParser</module>
         <module>mlspark</module>
         <module>sparkhbase</module>
         <module>sparkjobserverclient</module>
-        <module>jmx</module>
+        <module>antlr</module>
     </modules>
 </project>
