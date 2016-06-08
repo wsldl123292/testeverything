@@ -26,7 +26,7 @@ public class LuncherConsumer implements Serializable {
         final ApplicationContext context = new ClassPathXmlApplicationContext(configLocation);
         final Dbservice dbservice = (Dbservice) context.getBean("dbService");
         /*final SendEmailService emailService = (SendEmailService) context.getBean("sendEmail");*/
-        final ESConfig esConfig = new ESConfig("elasticsearch", "192.168.1.212", 9300);
+        final ESConfig esConfig = new ESConfig("elasticsearch", "192.168.1.211", 9300);
         /*final String sql = "select title " +
                 "from es.cms_data_saibo$info " +
                 "where  mediatype = 2 and (title ~ '(\"股份\" OR \"董事会\") AND (\"会议\")' or content ~ '(\"股份\" OR \"董事会\") AND (\"会议\")') and missing='psimhashrowkey'" +
