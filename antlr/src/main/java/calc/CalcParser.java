@@ -1,12 +1,9 @@
-// Generated from F:/GitHub/testeverything/antlr/src/main/java\Calc.g4 by ANTLR 4.5.1
+package calc;// Generated from F:/GitHub/testeverything/antlr/src/main/java\calc.Calc.g4 by ANTLR 4.5.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class CalcParser extends Parser {
@@ -68,7 +65,7 @@ public class CalcParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Calc.g4"; }
+	public String getGrammarFileName() { return "calc/Calc.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

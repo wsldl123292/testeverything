@@ -1,11 +1,12 @@
+package calc;
+
+import calc.CalcLexer;
+import calc.CalcParser;
+import calc.MyCalcVisitor;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 /**

@@ -1,4 +1,4 @@
-// Generated from F:/GitHub/testeverything/antlr/src/main/java\Calc.g4 by ANTLR 4.5.1
+package calc;// Generated from F:/GitHub/testeverything/antlr/src/main/java\calc.Calc.g4 by ANTLR 4.5.1
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
