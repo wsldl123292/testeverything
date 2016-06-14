@@ -81,9 +81,19 @@ public class EvalVisitor extends LabeledExprBaseVisitor<Integer> {
         return left - right; // must be SUB
     }
 
-    /** '(' expr ')' */
+    /**
+     * '(' expr ')'
+     */
     @Override
     public Integer visitParens(LabeledExprParser.ParensContext ctx) {
         return visit(ctx.expr()); // return child expr's value
+    }
+
+    @Override
+    public Integer visitClear(LabeledExprParser.ClearContext ctx) {
+        System.out.println(memory);
+        memory.clear();
+        System.out.println(memory);
+        return 0;
     }
 }
