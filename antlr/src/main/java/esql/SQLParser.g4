@@ -80,6 +80,8 @@ is_or_is_not
    : IS | IS NOT
    ;
 
+
+
 simple_expression
    : left_element relational_op right_element
    | target_element between_op LPAREN left_element COMMA left_element RPAREN

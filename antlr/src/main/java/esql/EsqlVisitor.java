@@ -15,13 +15,13 @@ public class EsqlVisitor extends SQLParserBaseVisitor<String> {
 
     @Override
     public String visitLeft_element(SQLParser.Left_elementContext ctx) {
-        //System.out.println(ctx.getText());
+        System.out.println(ctx.getText());
         return visitChildren(ctx);
     }
 
     @Override
     public String visitRight_element(SQLParser.Right_elementContext ctx) {
-        //System.out.println(ctx.getText());
+        System.out.println(ctx.getText());
         return visitChildren(ctx);
     }
 }
