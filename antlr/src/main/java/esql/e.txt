@@ -1,0 +1,1 @@
+SELECT Aa FROM dE-5.f where (cD = a and (b =c or e=3))
