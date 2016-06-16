@@ -49,6 +49,7 @@ expression
    | expression op=OR expression
    | simple_expression
    | LPAREN simple_expression RPAREN
+   | LPAREN expression RPAREN
    ;
 
 element
