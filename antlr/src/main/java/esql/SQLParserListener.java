@@ -1,4 +1,4 @@
-// Generated from /Users/ldl/Documents/develop/project/github/testeveryting/antlr/src/main/java/esql/SQLParser.g4 by ANTLR 4.5.3
+// Generated from F:/GitHub/testeverything/antlr/src/main/java/esql\SQLParser.g4 by ANTLR 4.5.3
 package esql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
