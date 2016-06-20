@@ -108,15 +108,53 @@ public interface SQLParserListener extends ParseTreeListener {
 	 */
 	void exitWhere_clause(SQLParser.Where_clauseContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SQLParser#expression}.
+	 * Enter a parse tree produced by the {@code andExp}
+	 * labeled alternative in {@link SQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpression(SQLParser.ExpressionContext ctx);
+	void enterAndExp(SQLParser.AndExpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SQLParser#expression}.
+	 * Exit a parse tree produced by the {@code andExp}
+	 * labeled alternative in {@link SQLParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpression(SQLParser.ExpressionContext ctx);
+	void exitAndExp(SQLParser.AndExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code parenExp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterParenExp(SQLParser.ParenExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parenExp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitParenExp(SQLParser.ParenExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code orExp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrExp(SQLParser.OrExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code orExp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrExp(SQLParser.OrExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code exp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExp(SQLParser.ExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code exp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExp(SQLParser.ExpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLParser#element}.
 	 * @param ctx the parse tree

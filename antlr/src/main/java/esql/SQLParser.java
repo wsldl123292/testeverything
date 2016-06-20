@@ -627,12 +627,18 @@ public class SQLParser extends Parser {
 	}
 
 	public static class ExpressionContext extends ParserRuleContext {
-		public Token op;
-		public Simple_expressionContext simple_expression() {
-			return getRuleContext(Simple_expressionContext.class,0);
+		public ExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public TerminalNode LPAREN() { return getToken(SQLParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(SQLParser.RPAREN, 0); }
+		@Override public int getRuleIndex() { return RULE_expression; }
+	 
+		public ExpressionContext() { }
+		public void copyFrom(ExpressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class AndExpContext extends ExpressionContext {
+		public Token op;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -640,22 +646,82 @@ public class SQLParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode AND() { return getToken(SQLParser.AND, 0); }
-		public TerminalNode OR() { return getToken(SQLParser.OR, 0); }
-		public ExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expression; }
+		public AndExpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterExpression(this);
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterAndExp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitExpression(this);
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitAndExp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitAndExp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ParenExpContext extends ExpressionContext {
+		public TerminalNode LPAREN() { return getToken(SQLParser.LPAREN, 0); }
+		public Simple_expressionContext simple_expression() {
+			return getRuleContext(Simple_expressionContext.class,0);
+		}
+		public TerminalNode RPAREN() { return getToken(SQLParser.RPAREN, 0); }
+		public ParenExpContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterParenExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitParenExp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitParenExp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class OrExpContext extends ExpressionContext {
+		public Token op;
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode OR() { return getToken(SQLParser.OR, 0); }
+		public OrExpContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterOrExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitOrExp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitOrExp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExpContext extends ExpressionContext {
+		public Simple_expressionContext simple_expression() {
+			return getRuleContext(Simple_expressionContext.class,0);
+		}
+		public ExpContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitExp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitExp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -680,12 +746,19 @@ public class SQLParser extends Parser {
 			case ID:
 			case INT:
 				{
+				_localctx = new ExpContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
 				setState(86);
 				simple_expression();
 				}
 				break;
 			case LPAREN:
 				{
+				_localctx = new ParenExpContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(87);
 				match(LPAREN);
 				setState(88);
@@ -711,24 +784,24 @@ public class SQLParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new AndExpContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(93);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(94);
-						((ExpressionContext)_localctx).op = match(AND);
+						((AndExpContext)_localctx).op = match(AND);
 						setState(95);
 						expression(5);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new ExpressionContext(_parentctx, _parentState);
+						_localctx = new OrExpContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(96);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(97);
-						((ExpressionContext)_localctx).op = match(OR);
+						((OrExpContext)_localctx).op = match(OR);
 						setState(98);
 						expression(4);
 						}

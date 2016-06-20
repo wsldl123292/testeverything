@@ -71,11 +71,33 @@ public interface SQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhere_clause(SQLParser.Where_clauseContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SQLParser#expression}.
+	 * Visit a parse tree produced by the {@code andExp}
+	 * labeled alternative in {@link SQLParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(SQLParser.ExpressionContext ctx);
+	T visitAndExp(SQLParser.AndExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code parenExp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenExp(SQLParser.ParenExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code orExp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrExp(SQLParser.OrExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code exp}
+	 * labeled alternative in {@link SQLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExp(SQLParser.ExpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLParser#element}.
 	 * @param ctx the parse tree
