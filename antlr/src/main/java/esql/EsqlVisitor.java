@@ -28,7 +28,7 @@ public class EsqlVisitor extends SQLParserBaseVisitor<String> {
     @Override
     public String visitParenExp(SQLParser.ParenExpContext ctx) {
         System.out.println("111111");
-        return visit(ctx.simple_expression());
+        return visit(ctx.expression());
     }
 
     @Override

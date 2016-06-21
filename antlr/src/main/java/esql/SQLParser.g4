@@ -8,7 +8,7 @@ stat
    ;
 
 select_clause
-   : SELECT column_list_clause ( FROM table_references )? ( where_clause )? ( limit_case )?
+   : SELECT column_list_clause FROM table_references  ( where_clause )? ( limit_case )?
    ;
 
 table_name
@@ -45,10 +45,10 @@ where_clause
    ;
 
 expression
-   : expression op=AND expression      #andExp
+   : LPAREN expression RPAREN          #parenExp
+   | expression op=AND expression      #andExp
    | expression op=OR expression       #orExp
    | simple_expression                 #exp
-   | LPAREN simple_expression RPAREN   #parenExp
    ;
 
 element
