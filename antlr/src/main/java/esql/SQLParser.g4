@@ -86,9 +86,9 @@ is_or_is_not
 
 
 simple_expression
-   : left_element relational_op right_element
-   | target_element between_op LPAREN left_element COMMA left_element RPAREN
-   | target_element is_or_is_not NULL
+   : left_element relational_op right_element                                 #baseExp
+   | target_element between_op LPAREN left_element COMMA left_element RPAREN  #betweenExp
+   | target_element is_or_is_not NULL                                         #isExp
    ;
 
 table_references

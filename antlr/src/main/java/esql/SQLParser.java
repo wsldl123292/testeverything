@@ -1,4 +1,4 @@
-// Generated from F:/GitHub/testeverything/antlr/src/main/java/esql\SQLParser.g4 by ANTLR 4.5.3
+// Generated from /Users/ldl/Documents/develop/project/github/testeveryting/antlr/src/main/java/esql/SQLParser.g4 by ANTLR 4.5.3
 package esql;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -1205,11 +1205,19 @@ public class SQLParser extends Parser {
 	}
 
 	public static class Simple_expressionContext extends ParserRuleContext {
-		public List<Left_elementContext> left_element() {
-			return getRuleContexts(Left_elementContext.class);
+		public Simple_expressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public Left_elementContext left_element(int i) {
-			return getRuleContext(Left_elementContext.class,i);
+		@Override public int getRuleIndex() { return RULE_simple_expression; }
+	 
+		public Simple_expressionContext() { }
+		public void copyFrom(Simple_expressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class BaseExpContext extends Simple_expressionContext {
+		public Left_elementContext left_element() {
+			return getRuleContext(Left_elementContext.class,0);
 		}
 		public Relational_opContext relational_op() {
 			return getRuleContext(Relational_opContext.class,0);
@@ -1217,6 +1225,22 @@ public class SQLParser extends Parser {
 		public Right_elementContext right_element() {
 			return getRuleContext(Right_elementContext.class,0);
 		}
+		public BaseExpContext(Simple_expressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterBaseExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitBaseExp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitBaseExp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BetweenExpContext extends Simple_expressionContext {
 		public Target_elementContext target_element() {
 			return getRuleContext(Target_elementContext.class,0);
 		}
@@ -1224,27 +1248,49 @@ public class SQLParser extends Parser {
 			return getRuleContext(Between_opContext.class,0);
 		}
 		public TerminalNode LPAREN() { return getToken(SQLParser.LPAREN, 0); }
+		public List<Left_elementContext> left_element() {
+			return getRuleContexts(Left_elementContext.class);
+		}
+		public Left_elementContext left_element(int i) {
+			return getRuleContext(Left_elementContext.class,i);
+		}
 		public TerminalNode COMMA() { return getToken(SQLParser.COMMA, 0); }
 		public TerminalNode RPAREN() { return getToken(SQLParser.RPAREN, 0); }
+		public BetweenExpContext(Simple_expressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterBetweenExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitBetweenExp(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitBetweenExp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IsExpContext extends Simple_expressionContext {
+		public Target_elementContext target_element() {
+			return getRuleContext(Target_elementContext.class,0);
+		}
 		public Is_or_is_notContext is_or_is_not() {
 			return getRuleContext(Is_or_is_notContext.class,0);
 		}
 		public TerminalNode NULL() { return getToken(SQLParser.NULL, 0); }
-		public Simple_expressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_simple_expression; }
+		public IsExpContext(Simple_expressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterSimple_expression(this);
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).enterIsExp(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitSimple_expression(this);
+			if ( listener instanceof SQLParserListener ) ((SQLParserListener)listener).exitIsExp(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitSimple_expression(this);
+			if ( visitor instanceof SQLParserVisitor ) return ((SQLParserVisitor<? extends T>)visitor).visitIsExp(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1257,6 +1303,7 @@ public class SQLParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
+				_localctx = new BaseExpContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(121);
@@ -1268,6 +1315,7 @@ public class SQLParser extends Parser {
 				}
 				break;
 			case 2:
+				_localctx = new BetweenExpContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(125);
@@ -1287,6 +1335,7 @@ public class SQLParser extends Parser {
 				}
 				break;
 			case 3:
+				_localctx = new IsExpContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(133);

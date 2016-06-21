@@ -1,4 +1,4 @@
-// Generated from F:/GitHub/testeverything/antlr/src/main/java/esql\SQLParser.g4 by ANTLR 4.5.3
+// Generated from /Users/ldl/Documents/develop/project/github/testeveryting/antlr/src/main/java/esql/SQLParser.g4 by ANTLR 4.5.3
 package esql;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -147,11 +147,26 @@ public interface SQLParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIs_or_is_not(SQLParser.Is_or_is_notContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SQLParser#simple_expression}.
+	 * Visit a parse tree produced by the {@code baseExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSimple_expression(SQLParser.Simple_expressionContext ctx);
+	T visitBaseExp(SQLParser.BaseExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code betweenExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBetweenExp(SQLParser.BetweenExpContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code isExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIsExp(SQLParser.IsExpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SQLParser#table_references}.
 	 * @param ctx the parse tree

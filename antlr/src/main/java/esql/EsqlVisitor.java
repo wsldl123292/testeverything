@@ -14,21 +14,9 @@ public class EsqlVisitor extends SQLParserBaseVisitor<String> {
     }
 
     @Override
-    public String visitLeft_element(SQLParser.Left_elementContext ctx) {
-        //System.out.println(ctx.getText());
-        return visitChildren(ctx);
-    }
-
-    @Override
-    public String visitRight_element(SQLParser.Right_elementContext ctx) {
-        //System.out.println(ctx.getText());
-        return visitChildren(ctx);
-    }
-
-    @Override
     public String visitParenExp(SQLParser.ParenExpContext ctx) {
         System.out.println("111111");
-        return visit(ctx.expression());
+        return visitChildren(ctx);
     }
 
     @Override
@@ -49,4 +37,10 @@ public class EsqlVisitor extends SQLParserBaseVisitor<String> {
         return visitChildren(ctx);
     }
 
+    @Override
+    public String visitBaseExp(SQLParser.BaseExpContext ctx) {
+        System.out.println("base");
+        System.out.println(ctx.getText());
+        return visitChildren(ctx);
+    }
 }

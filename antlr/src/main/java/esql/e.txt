@@ -1,1 +1,1 @@
-SELECT Aa FROM dE-5.f where cD = a and (d=c or c=t)
+SELECT Aa FROM dE-5.f where cD = a or d=c and c=t

@@ -1,4 +1,4 @@
-// Generated from F:/GitHub/testeverything/antlr/src/main/java/esql\SQLParser.g4 by ANTLR 4.5.3
+// Generated from /Users/ldl/Documents/develop/project/github/testeveryting/antlr/src/main/java/esql/SQLParser.g4 by ANTLR 4.5.3
 package esql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -236,15 +236,41 @@ public interface SQLParserListener extends ParseTreeListener {
 	 */
 	void exitIs_or_is_not(SQLParser.Is_or_is_notContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SQLParser#simple_expression}.
+	 * Enter a parse tree produced by the {@code baseExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterSimple_expression(SQLParser.Simple_expressionContext ctx);
+	void enterBaseExp(SQLParser.BaseExpContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SQLParser#simple_expression}.
+	 * Exit a parse tree produced by the {@code baseExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitSimple_expression(SQLParser.Simple_expressionContext ctx);
+	void exitBaseExp(SQLParser.BaseExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code betweenExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterBetweenExp(SQLParser.BetweenExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code betweenExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitBetweenExp(SQLParser.BetweenExpContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code isExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIsExp(SQLParser.IsExpContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code isExp}
+	 * labeled alternative in {@link SQLParser#simple_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIsExp(SQLParser.IsExpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SQLParser#table_references}.
 	 * @param ctx the parse tree
