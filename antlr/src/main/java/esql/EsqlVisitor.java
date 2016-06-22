@@ -21,16 +21,29 @@ public class EsqlVisitor extends SQLParserBaseVisitor<String> {
     @Override
     public String visitAndExp(SQLParser.AndExpContext ctx) {
         //System.out.println("2222222");
-        System.out.println(ctx.expression(0).getText() + "," + ctx.expression(0).getChildCount());
-        System.out.println(ctx.expression(1) instanceof SQLParser.ExpContext);
-        op.add("and");
+        SQLParser.ExpressionContext left = ctx.expression(0);
+        SQLParser.ExpressionContext right = ctx.expression(1);
+        System.out.println(ctx.getText());
+        if(left.getChildCount()==1){
+            System.out.println(left.getText());
+        }else if(right.getChildCount()==1){
+            System.out.println(right.getText());
+        }
         return visitChildren(ctx);
+
     }
 
     @Override
     public String visitOrExp(SQLParser.OrExpContext ctx) {
-        //System.out.println("333333");
-        op.add("or");
+        SQLParser.ExpressionContext left = ctx.expression(0);
+        SQLParser.ExpressionContext right = ctx.expression(1);
+        if(left.getChildCount()==1){
+            System.out.println(left.getText());
+            return visitChildren(right);
+        }else if(right.getChildCount()==1){
+            System.out.println(right.getText());
+            return visitChildren(left);
+        }
         return visitChildren(ctx);
     }
 
