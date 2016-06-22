@@ -45,10 +45,10 @@ where_clause
    ;
 
 expression
-   : LPAREN expression RPAREN          #parenExp
-   | expression op=AND expression      #andExp
-   | expression op=OR expression       #orExp
-   | simple_expression                 #exp
+   : LPAREN expression RPAREN       #parenExp
+   | expression AND expression      #andExp
+   | expression OR expression       #orExp
+   | simple_expression              #exp
    ;
 
 element

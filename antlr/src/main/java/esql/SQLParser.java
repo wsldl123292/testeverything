@@ -1,4 +1,4 @@
-// Generated from /Users/ldl/Documents/develop/project/github/testeveryting/antlr/src/main/java/esql/SQLParser.g4 by ANTLR 4.5.3
+// Generated from F:/GitHub/testeverything/antlr/src/main/java/esql\SQLParser.g4 by ANTLR 4.5.3
 package esql;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -631,7 +631,6 @@ public class SQLParser extends Parser {
 		}
 	}
 	public static class AndExpContext extends ExpressionContext {
-		public Token op;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -676,7 +675,6 @@ public class SQLParser extends Parser {
 		}
 	}
 	public static class OrExpContext extends ExpressionContext {
-		public Token op;
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -782,7 +780,7 @@ public class SQLParser extends Parser {
 						setState(91);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(92);
-						((AndExpContext)_localctx).op = match(AND);
+						match(AND);
 						setState(93);
 						expression(4);
 						}
@@ -794,7 +792,7 @@ public class SQLParser extends Parser {
 						setState(94);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(95);
-						((OrExpContext)_localctx).op = match(OR);
+						match(OR);
 						setState(96);
 						expression(3);
 						}
