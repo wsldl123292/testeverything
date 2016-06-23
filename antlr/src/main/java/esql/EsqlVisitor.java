@@ -1,57 +1,49 @@
 package esql;
 
-import java.util.Stack;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 
 /**
  * 说明:
  * 作者: LDL
  * 日期: 2016/6/15.
  */
-public class EsqlVisitor extends SQLParserBaseVisitor<String> {
-
-    public static Stack<String> expr = new Stack<>();
-    public static Stack<String> op = new Stack<>();
+public class EsqlVisitor extends SQLParserBaseVisitor<QueryBuilder> {
 
     @Override
-    public String visitParenExp(SQLParser.ParenExpContext ctx) {
-        //System.out.println("111111");
-        return visitChildren(ctx);
+    public QueryBuilder visitParenExp(SQLParser.ParenExpContext ctx) {
+        return visit(ctx.expression());
     }
 
     @Override
-    public String visitAndExp(SQLParser.AndExpContext ctx) {
+    public QueryBuilder visitAndExp(SQLParser.AndExpContext ctx) {
         //System.out.println("2222222");
-        SQLParser.ExpressionContext left = ctx.expression(0);
-        SQLParser.ExpressionContext right = ctx.expression(1);
-        System.out.println(ctx.getText());
-        if(left.getChildCount()==1){
-            System.out.println(left.getText());
-        }else if(right.getChildCount()==1){
-            System.out.println(right.getText());
-        }
-        return visitChildren(ctx);
+        QueryBuilder left = visit(ctx.expression(0));
+        QueryBuilder right = visit(ctx.expression(1));
+        return QueryBuilders.boolQuery()
+                .must(left)
+                .must(right);
 
     }
 
     @Override
-    public String visitOrExp(SQLParser.OrExpContext ctx) {
-        SQLParser.ExpressionContext left = ctx.expression(0);
-        SQLParser.ExpressionContext right = ctx.expression(1);
-        if(left.getChildCount()==1){
-            System.out.println(left.getText());
-            return visitChildren(right);
-        }else if(right.getChildCount()==1){
-            System.out.println(right.getText());
-            return visitChildren(left);
-        }
-        return visitChildren(ctx);
+    public QueryBuilder visitOrExp(SQLParser.OrExpContext ctx) {
+        QueryBuilder left = visit(ctx.expression(0));
+        QueryBuilder right = visit(ctx.expression(1));
+        return QueryBuilders.boolQuery()
+                .should(left)
+                .should(right);
     }
 
     @Override
-    public String visitExp(SQLParser.ExpContext ctx) {
-        //System.out.println("444444");
-        //System.out.println(ctx.getText());
-        expr.add(ctx.getText());
+    public QueryBuilder visitExp(SQLParser.ExpContext ctx) {
+        SQLParser.Simple_expressionContext simple_expressionContext = ctx.simple_expression();
+        if(simple_expressionContext instanceof SQLParser.BaseExpContext){
+            SQLParser.BaseExpContext baseExpContext = (SQLParser.BaseExpContext) simple_expressionContext;
+            if(baseExpContext.relational_op().getText().equals("=")){
+                return QueryBuilders.matchPhraseQuery(baseExpContext.left_element().getText(), baseExpContext.right_element().getText());
+            }
+        }
         return visitChildren(ctx);
     }
 }
