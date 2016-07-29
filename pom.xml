@@ -39,13 +39,8 @@
         </plugins>
     </build>
     <modules>
-        <!--<module>javacallgroovy</module>
-        <module>javacallpython</module>
-        <module>JSqlParser</module>
-        <module>mlspark</module>
-        <module>sparkhbase</module>
-        <module>sparkjobserverclient</module>-->
-        <module>antlr</module>
+        <!--<module>JSqlParser</module>-->
+        <!--<module>mlspark</module>-->
         <module>concurrency</module>
     </modules>
 </project>
