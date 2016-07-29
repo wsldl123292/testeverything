@@ -39,12 +39,12 @@
         </plugins>
     </build>
     <modules>
-        <module>javacallgroovy</module>
+        <!--<module>javacallgroovy</module>
         <module>javacallpython</module>
         <module>JSqlParser</module>
         <module>mlspark</module>
         <module>sparkhbase</module>
-        <module>sparkjobserverclient</module>
+        <module>sparkjobserverclient</module>-->
         <module>antlr</module>
     </modules>
 </project>
