@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class NetWorkConnectionsLoader implements Runnable {
     @Override
     public void run() {
-        System.out.printf("开始加载连接: %s\n",new Date());
+        System.out.printf("开始加载连接: %s\n", new Date());
 
         try {
             TimeUnit.SECONDS.sleep(6);
@@ -19,6 +19,6 @@ public class NetWorkConnectionsLoader implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.printf("连接加载结束 : %s\n",new Date());
+        System.out.printf("连接加载结束 : %s\n", new Date());
     }
 }
