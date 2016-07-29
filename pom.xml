@@ -46,5 +46,6 @@
         <module>sparkhbase</module>
         <module>sparkjobserverclient</module>-->
         <module>antlr</module>
+        <module>concurrency</module>
     </modules>
 </project>
