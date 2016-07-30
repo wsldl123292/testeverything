@@ -3,6 +3,7 @@ package threadmanagement.daemon;
 
 import java.util.Date;
 import java.util.Deque;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 功能:
@@ -28,7 +29,6 @@ class ClearnerTask implements Runnable {
 
 
     private void clean(Date date) {
-        // saSystem.out.println("zhixingle");
         long difference;
         boolean delete;
         if (deque.size() == 0) {
