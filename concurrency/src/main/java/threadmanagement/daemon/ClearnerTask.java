@@ -21,7 +21,9 @@ class ClearnerTask implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("kaishi");
         while (true) {
+
             Date date = new Date();
             clean(date);
         }
@@ -31,6 +33,7 @@ class ClearnerTask implements Runnable {
     private void clean(Date date) {
         long difference;
         boolean delete;
+        System.out.println(deque.size());
         if (deque.size() == 0) {
             return;
         }
@@ -42,12 +45,12 @@ class ClearnerTask implements Runnable {
             //System.out.println(difference);
             //System.out.println(deque.size());
             //System.out.println(delete);
-            if(difference>5000){
+            if(difference>2000){
                 System.out.printf("Cleaner: %s\n",e.getEvent());
                 deque.removeLast();
                 delete = true;
             }
-        }while (difference > 5000);
+        }while (difference > 2000);
         if(delete){
             System.out.printf("Cleaner: Size of queue: %s\n",deque.size());
         }
