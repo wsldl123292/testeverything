@@ -3,7 +3,6 @@ package threadmanagement.daemon;
 
 import java.util.Date;
 import java.util.Deque;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 功能:
@@ -39,20 +38,20 @@ class ClearnerTask implements Runnable {
         }
 
         delete = false;
-        do{
+        do {
             Event e = deque.getLast();
-            difference = date.getTime()-e.getDate().getTime();
+            difference = date.getTime() - e.getDate().getTime();
             //System.out.println(difference);
             //System.out.println(deque.size());
             //System.out.println(delete);
-            if(difference>2000){
-                System.out.printf("Cleaner: %s\n",e.getEvent());
+            if (difference > 2000) {
+                System.out.printf("Cleaner: %s\n", e.getEvent());
                 deque.removeLast();
                 delete = true;
             }
-        }while (difference > 2000);
-        if(delete){
-            System.out.printf("Cleaner: Size of queue: %s\n",deque.size());
+        } while (difference > 2000);
+        if (delete) {
+            System.out.printf("Cleaner: Size of queue: %s\n", deque.size());
         }
     }
 }

@@ -2,7 +2,6 @@ package threadmanagement.factory;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
@@ -17,15 +16,16 @@ public class MyThreadFactory implements ThreadFactory {
     private String name;
     private List<String> stats;
 
-    public MyThreadFactory(String name){
+    public MyThreadFactory(String name) {
         counter = 0;
         this.name = name;
         stats = new ArrayList<>();
 
     }
+
     @Override
     public Thread newThread(Runnable r) {
-        Thread thread = new Thread(r,name+"-Thread_"+counter);
+        Thread thread = new Thread(r, name + "-Thread_" + counter);
         counter++;
         stats.add(String.format("Create thread %d with name %s on %s\n", thread.getId(), thread.getName(),
                 new Date()));
@@ -34,7 +34,7 @@ public class MyThreadFactory implements ThreadFactory {
     }
 
 
-    public String getStatistics(){
+    public String getStatistics() {
         StringBuilder buffer = new StringBuilder();
         for (String stat : stats) {
             buffer.append(stat).append("\n");

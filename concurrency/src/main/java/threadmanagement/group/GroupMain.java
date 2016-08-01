@@ -1,7 +1,5 @@
 package threadmanagement.group;
 
-import com.sun.xml.internal.fastinfoset.stax.factory.StAXOutputFactory;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,13 +15,13 @@ public class GroupMain {
         ThreadGroup threadGroup = new ThreadGroup("Searcher");
 
         for (int i = 0; i < 4; i++) {
-            Thread thread = new Thread(threadGroup,searchTask);
+            Thread thread = new Thread(threadGroup, searchTask);
             thread.start();
             TimeUnit.SECONDS.sleep(1);
         }
 
 
-        System.out.printf("Number of Threads: %d\n",threadGroup.activeCount());
+        System.out.printf("Number of Threads: %d\n", threadGroup.activeCount());
         System.out.printf("Information about the Thread Group\n");
         threadGroup.list();
 
@@ -31,7 +29,7 @@ public class GroupMain {
         Thread[] threads = new Thread[threadGroup.activeCount()];
         threadGroup.enumerate(threads);
         for (int i = 0; i < threadGroup.activeCount(); i++) {
-            System.out.printf("Thread %s: %s\n",threads[i].getName(),threads[i].getState());
+            System.out.printf("Thread %s: %s\n", threads[i].getName(), threads[i].getState());
         }
 
         waitFinish(threadGroup);
@@ -40,8 +38,8 @@ public class GroupMain {
     }
 
     private static void waitFinish(ThreadGroup threadGroup) throws InterruptedException {
-        System.out.println("ddddddd: "+ threadGroup.activeCount());
-        while (threadGroup.activeCount() > 3){
+        System.out.println("ddddddd: " + threadGroup.activeCount());
+        while (threadGroup.activeCount() > 3) {
             TimeUnit.SECONDS.sleep(1);
         }
     }

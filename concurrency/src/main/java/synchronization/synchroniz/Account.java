@@ -1,4 +1,4 @@
-package synchronization.sychronized;
+package synchronization.synchroniz;
 
 /**
  * 功能:
@@ -6,4 +6,38 @@ package synchronization.sychronized;
  * 时间: 2016-08-01 11:23
  */
 public class Account {
+
+    private double balance;
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public synchronized void addAmount(double amount) {
+        double tmp = balance;
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tmp += amount;
+        balance = tmp;
+    }
+
+
+    public synchronized void subtractAmount(double amount) {
+        double tmp = balance;
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        tmp -= amount;
+        balance = tmp;
+    }
 }

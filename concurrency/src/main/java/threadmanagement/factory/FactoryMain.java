@@ -19,6 +19,6 @@ public class FactoryMain {
         }
 
         System.out.printf("Factory stats:\n");
-        System.out.printf("%s\n",factory.getStatistics());
+        System.out.printf("%s\n", factory.getStatistics());
     }
 }
