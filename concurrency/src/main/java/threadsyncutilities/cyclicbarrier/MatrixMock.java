@@ -30,7 +30,7 @@ public class MatrixMock {
 
 
     public int[] getRow(int row) {
-        if (row > 0 && row < data.length) {
+        if (row >= 0 && row < data.length) {
             return data[row];
         }
         return null;
