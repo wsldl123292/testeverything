@@ -1,11 +1,9 @@
 package threadexecutor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 /**
  * 功能:
@@ -44,30 +42,68 @@ public class Main {
 //        executorService.shutdown();
 //        System.out.printf("Main: End of the Execution\n");
 
-        List<TaskAll> taskAlls = new ArrayList<>();
+//        List<TaskAll> taskAlls = new ArrayList<>();
+//        for (int i = 0; i < 3; i++) {
+//            taskAlls.add(new TaskAll(i+""));
+//        }
+//
+//        List<Future<Result>> futures = null;
+//
+//        try {
+//            futures = executorService.invokeAll(taskAlls);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        executorService.shutdown();
+//
+//        System.out.println("Main: Printing the results.");
+//        for (int i = 0; i < futures.size(); i++) {
+//            Future<Result> future = futures.get(i);
+//            try {
+//                Result result = future.get();
+//                System.out.println(result.getName()+": "+result.getValue());
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+
+        ScheduledThreadPoolExecutor executor = (ScheduledThreadPoolExecutor)
+                Executors.newScheduledThreadPool(1);
+
+        System.out.printf("Main: Staring at: %s\n",new Date());
+
+        ScheduledFuture result = executor.scheduleAtFixedRate(new TaskSchedu("Task"),1,2,TimeUnit.SECONDS);
         for (int i = 0; i < 3; i++) {
-            taskAlls.add(new TaskAll(i+""));
-        }
+            System.out.printf("Main: Delay: %d\n",result.getDelay(TimeUnit.MILLISECONDS));
 
-        List<Future<Result>> futures = null;
-
-        try {
-            futures = executorService.invokeAll(taskAlls);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        executorService.shutdown();
-
-        System.out.println("Main: Printing the results.");
-        for (int i = 0; i < futures.size(); i++) {
-            Future<Result> future = futures.get(i);
             try {
-                Result result = future.get();
-                System.out.println(result.getName()+": "+result.getValue());
-            } catch (InterruptedException | ExecutionException e) {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException e) {
+
                 e.printStackTrace();
             }
         }
+//        for (int i = 0; i < 5; i++) {
+//            TaskSchedu taskSchedu = new TaskSchedu("Task "+i);
+//            executor.schedule(taskSchedu,i+1,TimeUnit.SECONDS);
+//        }
+//        executor.shutdown();
+//
+//        try{
+//            executor.awaitTermination(1,TimeUnit.DAYS);
+//        }catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
+
+        executor.shutdown();
+
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.printf("Main: Ends at: %s\n",new Date());
     }
 }
