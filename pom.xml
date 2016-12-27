@@ -42,5 +42,6 @@
         <!--<module>JSqlParser</module>-->
         <!--<module>mlspark</module>-->
         <module>concurrency</module>
+        <module>basis</module>
     </modules>
 </project>
