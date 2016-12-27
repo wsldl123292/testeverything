@@ -42,5 +42,6 @@
         <module>concurrency</module>
         <module>spring</module>
         <module>basis</module>
+        <module>springboot</module>
     </modules>
 </project>
