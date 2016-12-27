@@ -39,9 +39,8 @@
         </plugins>
     </build>
     <modules>
-        <!--<module>JSqlParser</module>-->
-        <!--<module>mlspark</module>-->
         <module>concurrency</module>
         <module>spring</module>
+        <module>basis</module>
     </modules>
 </project>
