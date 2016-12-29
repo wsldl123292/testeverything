@@ -59,4 +59,65 @@ public class Queue<Item> implements Iterator<Item> {
         if (isEmpty()) throw new NoSuchElementException("Queue underflow");
         return first.item;
     }
+
+    public void enqueue(Item item) {
+        Node<Item> oldLast = last;
+        last = new Node<Item>();
+        last.item = item;
+        last.next = null;
+        if (isEmpty()) {
+            first = last;
+        } else {
+            oldLast.next = last;
+        }
+        size++;
+
+    }
+
+
+    public Item dequeue() {
+        if (isEmpty()) throw new NoSuchElementException("Queue underflow");
+        Item item = first.item;
+        first = first.next;
+        size--;
+        if (isEmpty()) last = null;   // to avoid loitering
+        return item;
+    }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (Queue<Item> it = this; it.hasNext(); ) {
+            Item item = it.next();
+            s.append(item);
+            s.append(' ');
+        }
+        return s.toString();
+    }
+
+    public Iterator<Item> iterator() {
+        return new ListIterator<Item>(first);
+    }
+
+    private class ListIterator<Item> implements Iterator<Item> {
+        private Node<Item> current;
+
+        public ListIterator(Node<Item> first) {
+            current = first;
+        }
+
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
 }
