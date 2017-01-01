@@ -1,10 +1,7 @@
 package algs4.search;
 
-import algs4.StdIn;
 import algs4.StdOut;
 import algs4.bsq.Queue;
-
-import java.util.Iterator;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -90,21 +87,20 @@ public class SequentialSearchST<Key, Value> {
     }
 
 
-    public Iterator<Key> keys() {
+    public Iterable<Key> keys() {
         Queue<Key> queue = new Queue<Key>();
         for (Node x = first; x != null; x = x.next)
             queue.enqueue(x.key);
-            return queue;
+        return queue;
     }
 
     public static void main(String[] args) {
         SequentialSearchST<String, Integer> st = new SequentialSearchST<String, Integer>();
-        for (int i = 0; !StdIn.isEmpty(); i++) {
-            String key = StdIn.readString();
+        for (int i = 0; i < 10; i++) {
+            String key = "key" + i;
             st.put(key, i);
         }
-        for (Iterator<String> it = st.keys(); it.hasNext(); ) {
-            String s = it.next();
+        for (String s : st.keys()) {
             StdOut.println(s + " " + st.get(s));
         }
     }

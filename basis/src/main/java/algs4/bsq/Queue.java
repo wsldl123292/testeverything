@@ -8,29 +8,7 @@ import java.util.NoSuchElementException;
  * 作者: ldl
  * 时间: 2016-12-28 22:46
  */
-public class Queue<Item> implements Iterator<Item> {
-    /**
-     * Returns {@code true} if the iteration has more elements.
-     * (In other words, returns {@code true} if {@link #next} would
-     * return an element rather than throwing an exception.)
-     *
-     * @return {@code true} if the iteration has more elements
-     */
-    @Override
-    public boolean hasNext() {
-        return false;
-    }
-
-    /**
-     * Returns the next element in the iteration.
-     *
-     * @return the next element in the iteration
-     * @throws NoSuchElementException if the iteration has no more elements
-     */
-    @Override
-    public Item next() {
-        return null;
-    }
+public class Queue<Item> implements Iterable<Item> {
 
     private Node<Item> first;
     private Node<Item> last;
@@ -86,8 +64,7 @@ public class Queue<Item> implements Iterator<Item> {
 
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (Queue<Item> it = this; it.hasNext(); ) {
-            Item item = it.next();
+        for (Item item : this) {
             s.append(item);
             s.append(' ');
         }
