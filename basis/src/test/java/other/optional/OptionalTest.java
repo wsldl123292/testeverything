@@ -1,7 +1,7 @@
 package other.optional;
 
 import com.google.common.base.Optional;
-import common.TradeAccount;
+import guava.common.TradeAccount;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

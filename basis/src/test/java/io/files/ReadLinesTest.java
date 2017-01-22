@@ -9,6 +9,7 @@ package io.files;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import guava.io.files.ToListLineProcessor;
 import org.junit.Test;
 
 import java.io.File;
