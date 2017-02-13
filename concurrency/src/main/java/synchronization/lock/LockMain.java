@@ -8,7 +8,7 @@ package synchronization.lock;
  */
 public class LockMain {
     public static void main(String[] args) {
-        PrintQueue printQueue = new PrintQueue();
+        /*PrintQueue printQueue = new PrintQueue();
         Thread[] threads = new Thread[10];
         for (int i = 0; i < 10; i++) {
             threads[i] = new Thread(new Job(printQueue),"Thread "+i);
@@ -21,23 +21,23 @@ public class LockMain {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }*/
+
+
+        PricesInfo pricesInfo = new PricesInfo();
+        Reader readers[] = new Reader[5];
+        Thread threadsReader[] = new Thread[5];
+        for (int i = 0; i < 5; i++){
+            readers[i] = new Reader(pricesInfo);
+            threadsReader[i] = new Thread(readers[i]);
         }
+        Writer writer = new Writer(pricesInfo);
+        Thread threadWriter = new Thread(writer);
+        threadWriter.start();
 
-
-//        PricesInfo pricesInfo = new PricesInfo();
-//        Reader readers[] = new Reader[5];
-//        Thread threadsReader[] = new Thread[5];
-//        for (int i = 0; i < 5; i++){
-//            readers[i] = new Reader(pricesInfo);
-//            threadsReader[i] = new Thread(readers[i]);
-//        }
-//        Writer writer = new Writer(pricesInfo);
-//        Thread threadWriter = new Thread(writer);
-//        threadWriter.start();
-//
-//        for (int i = 0; i < 2; i++){
-//            threadsReader[i].start();
-//        }
+        for (int i = 0; i < 2; i++){
+            threadsReader[i].start();
+        }
 
     }
 }

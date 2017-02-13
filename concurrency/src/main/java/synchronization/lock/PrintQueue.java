@@ -15,7 +15,6 @@ public class PrintQueue {
 
     public void printJob(Object document){
         queueLock.lock();
-
         try {
             long duration = (long) (Math.random()*10000);
             System.out.println(Thread.currentThread().getName()+":PrintQueue: Printing a Job during "+(duration
@@ -29,7 +28,7 @@ public class PrintQueue {
 
 
 
-        queueLock.lock();
+        /*queueLock.lock();
         System.out.println("2222222");
         long duration = (long) (Math.random()*10000);
         System.out.println(Thread.currentThread().getName()+":PrintQueue: Printing a Job during "+(duration
@@ -41,7 +40,7 @@ public class PrintQueue {
             e.printStackTrace();
         }finally {
             queueLock.unlock();
-        }
+        }*/
 
     }
 }

@@ -1,7 +1,5 @@
 package forkjoin.merge;
 
-import com.sun.tools.javac.code.Lint;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -18,7 +16,7 @@ public class DocumentTask extends RecursiveTask<Integer> {
     private int start, end;
     private String word;
 
-    public DocumentTask(String[][] document, int start, int end, String word) {
+    DocumentTask(String[][] document, int start, int end, String word) {
         this.document = document;
         this.start = start;
         this.end = end;
