@@ -16,8 +16,13 @@ public class BitManipulationSolution {
         return xor ^ i;
     }
 
+    public static boolean isPowerOfTwo(int n) {
+
+        return n > 0 && Integer.bitCount(n) == 1;
+    }
+
     public static void main(String[] args) {
-        int[] a = new int[]{0, 1, 2, 4, 5};
-        System.out.println(missingNumber(a));
+        System.out.println(isPowerOfTwo(2));
+        System.out.println(Integer.bitCount(11));
     }
 }
