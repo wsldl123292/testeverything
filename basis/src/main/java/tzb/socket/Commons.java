@@ -1,11 +1,13 @@
 package tzb.socket;
 
 import sun.reflect.Reflection;
+import tzb.socket.client.component.CharsetByteRelative;
+import tzb.socket.client.sender.*;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * 功能:
@@ -45,9 +47,15 @@ public class Commons {
 
     public final static int DEFAULT_BUFFER_LENGTH = 8 * 1024;
 
-    public final static String HELP_SHOW = "";
+    public final static String HELP_SHOW = "\n\n\t\t操作方式：\n" +
+            "\t\t1、传送普通的字符串，例如：\"sendMsg 你好啊！\" 即可。\n" +
+            "\t\t2、传送文本文件，例如：\"sendFile /home/xieyuooo/a.sql charset=utf-8\"\n" +
+            "\t\t3、传送非文本文件，例如：\"sendBFile /home/xieyuooo/aaa.jpg\"\n" +
+            "\t\t4、下载文件，例如：\"getFile aaa.jpg d:/download/\" 其中d:/download/为下载到本地的目录，若未指定，则下载到user.dir下面\n" +
+            "\t\t5、help 输出相关的使用帮助\n" +
+            "\t\t6、exit 退出客户端";
 
-    public final static String ERROR_MESSAGE_FORMAT = "" + HELP_SHOW;
+    public final static String ERROR_MESSAGE_FORMAT = "错误的消息格式，请参看 demo：\n" + HELP_SHOW;
 
     public static void closeStream(Closeable closeable) {
         try {
@@ -58,9 +66,59 @@ public class Commons {
         }
     }
 
+    private final static List<CharsetByteRelative> CHASET_BYTE_LIST = Arrays.asList(
+            new CharsetByteRelative("utf8", (byte) 1),
+            new CharsetByteRelative("gbk", (byte) 2),
+            new CharsetByteRelative("utf16", (byte) 3)
+    );
+
     public static void logInfo(String message) {
-        Class<?> clazz = Reflection.getCallerClass();
+        Class<?> clazz = Reflection.getCallerClass(0);
         String date = DATE_FORMAT_OBJECT.format(Calendar.getInstance().getTime());
         System.out.println(date + " [] INFO " + clazz.getName() + " - " + message);
+    }
+
+    public static String getCharsetNameByCode(byte charsetCode) {
+        for (CharsetByteRelative charsetByteRelative : CHASET_BYTE_LIST) {
+            if (charsetByteRelative.isCharsetCode(charsetCode)) {
+                return charsetByteRelative.getCharset();
+            }
+        }
+        throw new RuntimeException("不支持字符集编号：" + charsetCode);
+    }
+
+    public static void print(String str) {
+        System.out.print(str);
+    }
+
+    public static void println(String str) {
+        System.out.println(str);
+    }
+
+
+    private final static Map<String, Class<? extends Sendable>> ORDER_CLASS_MAP
+            = new HashMap<String, Class<? extends Sendable>>() {
+        private static final long serialVersionUID = 3431099761909680054L;
+
+        {
+            put(SEND_MESSAGE_STR.toLowerCase(), MessageSender.class);
+            put(SEND_FILE_STR.toLowerCase(), FileSender.class);
+            put(SEND_B_FILE_STR.toLowerCase(), BFileSender.class);
+            put(GET_FILE_STR.toLowerCase(), GetFileSender.class);
+        }
+    };
+
+    public static Class<? extends Sendable> findSendableClassByOrder(String order) {
+        Class<? extends Sendable> clazz = ORDER_CLASS_MAP.get(order.toLowerCase());
+        return clazz == null ? DefaultSender.class : clazz;
+    }
+
+    public static byte getCharsetByteByName(String charset) {
+        for (CharsetByteRelative charsetByteRelative : CHASET_BYTE_LIST) {
+            if (charsetByteRelative.isCharset(charset)) {
+                return charsetByteRelative.getCharsetByte();
+            }
+        }
+        throw new RuntimeException("不支持字符集：" + charset);
     }
 }

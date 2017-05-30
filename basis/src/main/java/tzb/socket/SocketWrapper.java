@@ -3,6 +3,7 @@ package tzb.socket;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 import static tzb.socket.Commons.closeStream;
 
@@ -121,5 +122,16 @@ public class SocketWrapper {
         } finally {
             closeStream(inputStream);
         }
+    }
+
+    public void close() {
+        try {
+            this.socket.close();
+        }catch(Exception e) {
+			/*this body code need you write*/
+        }
+    }
+
+    public void displayStatus() throws SocketException {
     }
 }
