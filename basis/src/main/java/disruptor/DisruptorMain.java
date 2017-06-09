@@ -7,10 +7,7 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @描述
@@ -57,11 +54,28 @@ public class DisruptorMain {
             }
         };
 
-        int buffSize = 16;
-        Disruptor<Element> disruptor = new Disruptor<>(eventFactory, buffSize, threadFactory, ProducerType.MULTI, new BlockingWaitStrategy());
+        // 处理Event的handler
+        EventHandler<Element> handler1 = new EventHandler<Element>() {
+            @Override
+            public void onEvent(Element element, long l, boolean b) throws Exception {
+                Thread.sleep(500);
+                System.out.println("Element1: " + element.getValue());
+            }
+        };
 
+        // 处理Event的handler
+        EventHandler<Element> handler2 = new EventHandler<Element>() {
+            @Override
+            public void onEvent(Element element, long l, boolean b) throws Exception {
+                Thread.sleep(5000);
+                System.out.println("Element2: " + element.getValue());
+            }
+        };
+
+        int buffSize = 16;
+        Disruptor<Element> disruptor = new Disruptor<>(eventFactory, buffSize, threadFactory, ProducerType.SINGLE, new BlockingWaitStrategy());
         //noinspection unchecked
-        disruptor.handleEventsWith(handler);
+        disruptor.handleEventsWith(handler, handler2);
         disruptor.start();
 
 
@@ -77,6 +91,7 @@ public class DisruptorMain {
                 // 设置该位置元素的值
                 event.setValue(l);
             } finally {
+                System.out.println(sequence);
                 ringBuffer.publish(sequence);
             }
             Thread.sleep(10);
