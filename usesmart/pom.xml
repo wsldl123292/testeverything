@@ -9,7 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring</artifactId>
+    <artifactId>usesmart</artifactId>
 
 
+    <!--<dependencies>
+        <dependency>
+            <groupId>com.ldl</groupId>
+            <artifactId>smart-framework</artifactId>
+        </dependency>
+    </dependencies>-->
 </project>
