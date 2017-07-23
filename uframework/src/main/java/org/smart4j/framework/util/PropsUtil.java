@@ -16,7 +16,7 @@ public class PropsUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(PropsUtil.class);
 
-    public static Properties loadProperties(String propsPath) {
+    public static Properties loadProps(String propsPath) {
         Properties properties = new Properties();
         InputStream inputStream;
         if (StringUtil.isEmpty(propsPath)) {
@@ -43,5 +43,40 @@ public class PropsUtil {
         }
 
         return properties;
+    }
+
+    public static String getString(Properties configProps, String key) {
+        String value = "";
+        if (configProps.containsKey(key)) {
+            value = configProps.getProperty(key);
+        }
+        return value;
+
+    }
+
+    public static String getString(Properties configProps, String key, String defaultValue) {
+
+        String value = defaultValue;
+        if (configProps.containsKey(key)) {
+            value = configProps.getProperty(key);
+        }
+        return value;
+    }
+
+    public static int getNumber(Properties configProps, String key) {
+        int value = 0;
+        if (configProps.containsKey(key)) {
+            value = CastUtil.castInt(configProps.getProperty(key));
+        }
+        return value;
+    }
+
+    public static int getNumber(Properties configProps, String key, int defaultValue) {
+
+        int value = defaultValue;
+        if (configProps.containsKey(key)) {
+            value = CastUtil.castInt(configProps.getProperty(key));
+        }
+        return value;
     }
 }
