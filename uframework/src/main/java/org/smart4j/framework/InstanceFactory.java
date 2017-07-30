@@ -12,7 +12,7 @@ public class InstanceFactory {
     /**
      * 用于缓存对应的实例
      */
-    private static final Map<String, Object> cache = new ConcurrentHashMap<String, Object>();
+    private static final Map<String, Object> cache = new ConcurrentHashMap<>();
 
     /**
      * ClassScanner
@@ -54,6 +54,48 @@ public class InstanceFactory {
      */
     public static ClassScanner getClassScanner() {
         return getInstance(CLASS_SCANNER, DefaultClassScanner.class);
+    }
+
+    /**
+     * 获取 DataSourceFactory
+     */
+    public static DataSourceFactory getDataSourceFactory() {
+        return getInstance(DS_FACTORY, DefaultDataSourceFactory.class);
+    }
+
+    /**
+     * 获取 DataAccessor
+     */
+    public static DataAccessor getDataAccessor() {
+        return getInstance(DATA_ACCESSOR, DefaultDataAccessor.class);
+    }
+
+    /**
+     * 获取 HandlerMapping
+     */
+    public static HandlerMapping getHandlerMapping() {
+        return getInstance(HANDLER_MAPPING, DefaultHandlerMapping.class);
+    }
+
+    /**
+     * 获取 HandlerInvoker
+     */
+    public static HandlerInvoker getHandlerInvoker() {
+        return getInstance(HANDLER_INVOKER, DefaultHandlerInvoker.class);
+    }
+
+    /**
+     * 获取 HandlerExceptionResolver
+     */
+    public static HandlerExceptionResolver getHandlerExceptionResolver() {
+        return getInstance(HANDLER_EXCEPTION_RESOLVER, DefaultHandlerExceptionResolver.class);
+    }
+
+    /**
+     * 获取 ViewResolver
+     */
+    public static ViewResolver getViewResolver() {
+        return getInstance(VIEW_RESOLVER, DefaultViewResolver.class);
     }
 
     @SuppressWarnings("unchecked")
