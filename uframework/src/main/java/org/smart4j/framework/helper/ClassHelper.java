@@ -1,8 +1,10 @@
 package org.smart4j.framework.helper;
 
+import org.smart4j.framework.InstanceFactory;
 import org.smart4j.framework.core.ClassScanner;
 import org.smart4j.framework.core.ConfigHelper;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 public class ClassHelper {
@@ -23,5 +25,9 @@ public class ClassHelper {
      */
     public static List<Class<?>> getClassList() {
         return classScanner.getClassList(basePackage);
+    }
+
+    public static List<Class<?>> getClassListByAnnotation(Class<? extends Annotation> annotationClass) {
+        return classScanner.getClassListByAnnotation(basePackage, annotationClass);
     }
 }
