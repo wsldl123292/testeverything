@@ -7,7 +7,10 @@ import org.smart4j.framework.dao.impl.DefaultDataAccessor;
 import org.smart4j.framework.ds.DataSourceFactory;
 import org.smart4j.framework.ds.impl.DefaultDataSourceFactory;
 import org.smart4j.framework.core.impl.DefaultClassScanner;
+import org.smart4j.framework.mvc.HandlerInvoker;
 import org.smart4j.framework.mvc.HandlerMapping;
+import org.smart4j.framework.mvc.ViewResolver;
+import org.smart4j.framework.mvc.impl.DefaultHandlerInvoker;
 import org.smart4j.framework.mvc.impl.DefaultHandlerMapping;
 import org.smart4j.framework.util.StringUtil;
 
