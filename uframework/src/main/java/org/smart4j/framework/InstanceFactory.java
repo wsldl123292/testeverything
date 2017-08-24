@@ -2,13 +2,13 @@ package org.smart4j.framework;
 
 import org.smart4j.framework.core.ClassScanner;
 import org.smart4j.framework.core.ConfigHelper;
-import org.smart4j.framework.core.dao.DataAccessor;
-import org.smart4j.framework.core.dao.impl.DefaultDataAccessor;
-import org.smart4j.framework.core.ds.DataSourceFactory;
-import org.smart4j.framework.core.ds.impl.DefaultDataSourceFactory;
+import org.smart4j.framework.dao.DataAccessor;
+import org.smart4j.framework.dao.impl.DefaultDataAccessor;
+import org.smart4j.framework.ds.DataSourceFactory;
+import org.smart4j.framework.ds.impl.DefaultDataSourceFactory;
 import org.smart4j.framework.core.impl.DefaultClassScanner;
-import org.smart4j.framework.core.mvc.HandlerMapping;
-import org.smart4j.framework.core.mvc.impl.DefaultHandlerMapping;
+import org.smart4j.framework.mvc.HandlerMapping;
+import org.smart4j.framework.mvc.impl.DefaultHandlerMapping;
 import org.smart4j.framework.util.StringUtil;
 
 import java.util.Map;

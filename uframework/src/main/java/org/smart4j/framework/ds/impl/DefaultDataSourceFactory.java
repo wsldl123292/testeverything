@@ -1,4 +1,4 @@
-package org.smart4j.framework.core.ds.impl;
+package org.smart4j.framework.ds.impl;
 
 import org.apache.commons.dbcp.BasicDataSource;
 

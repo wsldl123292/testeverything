@@ -1,4 +1,4 @@
-package org.smart4j.framework.core.dao;
+package org.smart4j.framework.dao;
 
 /**
  * 功能:

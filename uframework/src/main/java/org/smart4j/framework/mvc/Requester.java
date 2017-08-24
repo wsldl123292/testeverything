@@ -1,4 +1,4 @@
-package org.smart4j.framework.core.mvc;
+package org.smart4j.framework.mvc;
 
 /**
  * 功能:

@@ -1,4 +1,4 @@
-package org.smart4j.framework.core.ds;
+package org.smart4j.framework.ds;
 
 import javax.sql.DataSource;
 

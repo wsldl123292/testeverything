@@ -1,8 +1,8 @@
-package org.smart4j.framework.core.mvc;
+package org.smart4j.framework.mvc;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.smart4j.framework.annotation.Action;
-import org.smart4j.framework.core.mvc.annotation.Request;
+import org.smart4j.framework.mvc.annotation.Request;
 import org.smart4j.framework.helper.ClassHelper;
 import org.smart4j.framework.util.ArrayUtil;
 import org.smart4j.framework.util.StringUtil;

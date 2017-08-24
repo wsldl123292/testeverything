@@ -1,9 +1,9 @@
-package org.smart4j.framework.core.mvc.impl;
+package org.smart4j.framework.mvc.impl;
 
-import org.smart4j.framework.core.mvc.ActionHelper;
-import org.smart4j.framework.core.mvc.Handler;
-import org.smart4j.framework.core.mvc.HandlerMapping;
-import org.smart4j.framework.core.mvc.Requester;
+import org.smart4j.framework.mvc.ActionHelper;
+import org.smart4j.framework.mvc.Handler;
+import org.smart4j.framework.mvc.HandlerMapping;
+import org.smart4j.framework.mvc.Requester;
 
 import java.util.Map;
 

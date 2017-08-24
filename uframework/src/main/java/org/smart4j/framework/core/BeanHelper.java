@@ -2,7 +2,9 @@ package org.smart4j.framework.core;
 
 import org.smart4j.framework.annotation.Action;
 import org.smart4j.framework.annotation.Service;
+import org.smart4j.framework.aop.annotation.Aspect;
 import org.smart4j.framework.helper.ClassHelper;
+import org.smart4j.framework.ioc.annotation.Bean;
 
 import java.util.HashMap;
 import java.util.List;

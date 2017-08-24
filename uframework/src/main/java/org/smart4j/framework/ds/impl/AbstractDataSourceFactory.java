@@ -1,7 +1,7 @@
-package org.smart4j.framework.core.ds.impl;
+package org.smart4j.framework.ds.impl;
 
 import org.smart4j.framework.core.ConfigHelper;
-import org.smart4j.framework.core.ds.DataSourceFactory;
+import org.smart4j.framework.ds.DataSourceFactory;
 
 import javax.sql.DataSource;
 

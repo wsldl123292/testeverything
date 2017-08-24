@@ -1,4 +1,4 @@
-package org.smart4j.framework.core.mvc;
+package org.smart4j.framework.mvc;
 
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
