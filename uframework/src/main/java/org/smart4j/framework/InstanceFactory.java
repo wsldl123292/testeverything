@@ -14,6 +14,7 @@ import org.smart4j.framework.mvc.ViewResolver;
 import org.smart4j.framework.mvc.impl.DefaultHandlerExceptionResolver;
 import org.smart4j.framework.mvc.impl.DefaultHandlerInvoker;
 import org.smart4j.framework.mvc.impl.DefaultHandlerMapping;
+import org.smart4j.framework.mvc.impl.DefaultViewResolver;
 import org.smart4j.framework.util.StringUtil;
 
 import java.util.Map;
