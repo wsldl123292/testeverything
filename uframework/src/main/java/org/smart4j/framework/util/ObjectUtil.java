@@ -103,7 +103,6 @@ public class ObjectUtil {
             String fieldName = field.getName();
             Object fieldValue = ObjectUtil.getFieldValue(obj, fieldName);
             fieldMap.put(fieldName, fieldValue);
-            //kkkkkkkkkkkkkkk
         }
         return fieldMap;
     }
