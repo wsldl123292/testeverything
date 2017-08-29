@@ -104,6 +104,7 @@ public class ObjectUtil {
             Object fieldValue = ObjectUtil.getFieldValue(obj, fieldName);
             fieldMap.put(fieldName, fieldValue);
         }
+        //dsfdfasdfasdf
         return fieldMap;
     }
 }
