@@ -15,6 +15,11 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 功能:
@@ -27,7 +32,13 @@ public class ImgClassification {
 
     private static final Long MAX_SIZE = 1048576L;
 
-    private static Integer count = 0;
+    private static LinkedBlockingQueue queue = new LinkedBlockingQueue(5000);
+
+    private static ExecutorService executor = Executors.newFixedThreadPool(3);
+
+    private static CountDownLatch latch = new CountDownLatch(3);
+
+    private static AtomicInteger count = new AtomicInteger(0);
 
     public static void main(String[] args) throws Exception {
         if (args == null) {
@@ -42,37 +53,66 @@ public class ImgClassification {
         long start = System.currentTimeMillis();
         newFilePath = args[1];
         File parent = new File(args[0]);
-        if (parent.isDirectory()) {
-            File[] files = parent.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.getName().contains(".jpg") && file.length() > MAX_SIZE) {
-                        imageHandler(file);
-                    }
-                }
-            } else {
-                throw new Exception("没有图片");
-            }
 
+        toQueue(parent);
+
+        for (int i = 0; i < 3; i++) {
+            executor.submit(new imageTask());
         }
-
-        System.out.println("执行结束,共执行了" + count + "个,共耗时:" + (System.currentTimeMillis() - start) / 1000);
+        latch.await();
+        System.out.println("执行结束,共完成:" + count + ",共耗时:" + (System.currentTimeMillis() - start) / 1000);
+        executor.shutdown();
 
     }
 
-    private static void imageHandler(File root) throws Exception {
-        count++;
-        System.out.println("开始执行第" + count + "个");
+    @SuppressWarnings("unchecked")
+    private static void toQueue(File root) throws Exception {
         if (root.isDirectory()) {
             File[] files = root.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    imageHandler(file);
+                    toQueue(file);
                 }
             }
 
         } else {
-            printImageTags(root);
+            if (root.getName().contains(".jpg") && root.length() > MAX_SIZE) {
+                queue.add(root);
+            }
+        }
+    }
+
+
+    private static class imageTask implements Runnable {
+
+        /**
+         * When an object implementing interface <code>Runnable</code> is used
+         * to create a thread, starting the thread causes the object's
+         * <code>run</code> method to be called in that separately executing
+         * thread.
+         * <p>
+         * The general contract of the method <code>run</code> is that it may
+         * take any action whatsoever.
+         *
+         * @see Thread#run()
+         */
+        @Override
+        public void run() {
+            while (!queue.isEmpty()) {
+                File image = null;
+                image = (File) queue.poll();
+                if (image != null) {
+                    try {
+                        System.out.println("当前执行第" + count + "个");
+                        printImageTags(image);
+                        count.addAndGet(1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            latch.countDown();
         }
     }
 
@@ -154,7 +194,6 @@ public class ImgClassification {
         if (latitude == null || longitude == null) {
             return null;
         }
-        long start = System.currentTimeMillis();
         BufferedReader in;
         URL tirc = new URL("http://api.map.baidu.com/geocoder?location=" + latitude + "," + longitude + "&output=json&key=" + "E4805d16520de693a3fe707cdc962045");
         try {
@@ -167,7 +206,6 @@ public class ImgClassification {
             JSONObject object = JSON.parseObject(sb.toString());
             if (object.get("status") != null && Objects.equals(object.getString("status"), "OK")) {
                 JSONObject result = JSON.parseObject(object.getString("result"));
-                System.out.println(Thread.currentThread() + "调用API获取位置完成,耗时:" + (System.currentTimeMillis() - start) / 1000);
                 return JSON.parseObject(result.getString("addressComponent"), Location.class);
             }
 
@@ -219,5 +257,3 @@ public class ImgClassification {
     }
 
 }
-
-
