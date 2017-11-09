@@ -8,7 +8,7 @@ import org.smart4j.framework.FrameworkConstant;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -205,7 +205,9 @@ public class WebUtil {
             String downloadedFileName = new String(originalFileName.getBytes("GBK"), "ISO8859_1");
             response.setContentType("application/octet-stream");
             response.addHeader("Content-Disposition", "attachment;filename=\"" + downloadedFileName + "\"");
-
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(filePath));
+            OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+            StreamUtil.copyStream(inputStream, outputStream);
         } catch (Exception e) {
             logger.error("下载文件出错！", e);
             throw new RuntimeException(e);
