@@ -3,6 +3,8 @@ package org.smart4j.framework.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
+
 /**
  * @描述 类操作工具类
  * @作者 liudelin
@@ -63,5 +65,18 @@ public class ClassUtil {
      */
     public static boolean isString(Class<?> type) {
         return type.equals(String.class);
+    }
+
+
+    /**
+     * 获取类路径
+     */
+    public static String getClassPath() {
+        String classpath = "";
+        URL resource = getClassLoader().getResource("");
+        if (resource != null) {
+            classpath = resource.getPath();
+        }
+        return classpath;
     }
 }

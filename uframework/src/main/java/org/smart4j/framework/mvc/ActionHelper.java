@@ -1,9 +1,9 @@
 package org.smart4j.framework.mvc;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.smart4j.framework.annotation.Action;
-import org.smart4j.framework.mvc.annotation.Request;
 import org.smart4j.framework.helper.ClassHelper;
+import org.smart4j.framework.mvc.annotation.Action;
+import org.smart4j.framework.mvc.annotation.Request;
 import org.smart4j.framework.util.ArrayUtil;
 import org.smart4j.framework.util.StringUtil;
 
@@ -22,14 +22,14 @@ public class ActionHelper {
     /**
      * Action Map（HTTP 请求与 Action 方法的映射）
      */
-    private static final Map<Requester, Handler> actionMap = new LinkedHashMap<Requester, Handler>();
+    private static final Map<Requester, Handler> actionMap = new LinkedHashMap<>();
 
     static {
         List<Class<?>> actionClassList = ClassHelper.getClassListByAnnotation(Action.class);
         if (CollectionUtils.isNotEmpty(actionClassList)) {
             // 定义两个 Action Map
-            Map<Requester, Handler> commonActionMap = new HashMap<Requester, Handler>(); // 存放普通 Action Map
-            Map<Requester, Handler> regexpActionMap = new HashMap<Requester, Handler>(); // 存放带有正则表达式的 Action Map
+            Map<Requester, Handler> commonActionMap = new HashMap<>(); // 存放普通 Action Map
+            Map<Requester, Handler> regexpActionMap = new HashMap<>(); // 存放带有正则表达式的 Action Map
             // 遍历 Action 类
             for (Class<?> actionClass : actionClassList) {
                 // 获取并遍历该 Action 类中所有的方法
@@ -65,7 +65,7 @@ public class ActionHelper {
 
     private static void putActionMap(String requestMethod, String requestPath, Class<?> actionClass, Method actionMethod, Map<Requester, Handler> commonActionMap, Map<Requester, Handler> regexpActionMap) {
         // 判断 Request Path 中是否带有占位符
-        if (requestPath.matches(".+\\{\\w+\\}.*")) {
+        if (requestPath.matches(".+\\{\\w+}.*")) {
             // 将请求路径中的占位符 {\w+} 转换为正则表达式 (\\w+)
             requestPath = StringUtil.replaceAll(requestPath, "\\{\\w+\\}", "(\\\\w+)");
             // 将 Requester 与 Handler 放入 Regexp Action Map 中

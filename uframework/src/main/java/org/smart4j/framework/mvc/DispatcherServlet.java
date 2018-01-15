@@ -29,13 +29,13 @@ public class DispatcherServlet extends HttpServlet {
     private HandlerExceptionResolver handlerExceptionResolver = InstanceFactory.getHandlerExceptionResolver();
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) {
         ServletContext servletContext = config.getServletContext();
         UploadHelper.init(servletContext);
     }
 
     @Override
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 设置请求编码方式
         request.setCharacterEncoding(FrameworkConstant.UTF_8);
         // 获取当前请求相关数据

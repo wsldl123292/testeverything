@@ -30,4 +30,12 @@ public class ClassHelper {
     public static List<Class<?>> getClassListByAnnotation(Class<? extends Annotation> annotationClass) {
         return classScanner.getClassListByAnnotation(basePackage, annotationClass);
     }
+
+
+    /**
+     * 获取基础包名中指定父类或接口的相关类
+     */
+    public static List<Class<?>> getClassListBySuper(Class<?> superClass) {
+        return classScanner.getClassListBySuper(basePackage, superClass);
+    }
 }
