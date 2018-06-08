@@ -45,16 +45,24 @@ public class Solution {
      * @param prices
      */
     private static void maxProfit(int[] prices) {
-        int max = 0;
-        for (int i = 0; i < prices.length; i++) {
-            for (int j = i + 1; j < prices.length; j++) {
-                if (max < (prices[j] - prices[i])) {
-                    max = prices[j] - prices[i];
+        int sum = 0;
+        if (prices.length > 1) {
+            int begin = prices[0];
+            int end = prices[0];
+
+            for (int price : prices) {
+                if (price >= end) {
+                    end = price;
+                } else {
+                    sum = sum + end - begin;
+                    begin = price;
+                    end = price;
                 }
             }
+            sum = sum + end - begin;
         }
 
-        System.out.println(max);
+        System.out.println(sum);
     }
 
 
@@ -62,7 +70,7 @@ public class Solution {
         /*int[] removeDuplicatesNums = new int[]{0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
         removeDuplicates(removeDuplicatesNums);*/
 
-        int[] maxProfitNums = new int[]{7, 6, 4, 3, 1};
+        int[] maxProfitNums = new int[]{7, 1, 5, 3, 6, 4};
         maxProfit(maxProfitNums);
 
 
